@@ -1,0 +1,1 @@
+- Instalamos reactRouterDom en su nueva version (DATA APIS) que agrupa las rutas diferente al proyecto de bebidas. Creamos archivo en src router.tsx-> aca se configura el router.
