@@ -1,3 +1,4 @@
 - Instalamos reactRouterDom en su nueva version (DATA APIS) que agrupa las rutas diferente al proyecto de bebidas npm i react-router-dom. Creamos archivo en src router.tsx-> aca se configura el router. En la documentacion de reactRouterDom dice la sintaxis que hay que usar el BrowserProvider en main.tsx con la prop router para inyectar las rutas de app.
 - Usamos el viejo y querido componente Outlet al igual que el proyecto de bebidas y el key index:true para que la app sepa que en el path:'/' es el index, la pagina principal.
 - Ahora podemos hacer el diseño en Layout y se va a compartir en Outlet. El flujo es asi: Layout tiene un diseño y lo comparte con Outlet. 
+- Agregamos el routing con <Link><Link/> para navegar las views.
