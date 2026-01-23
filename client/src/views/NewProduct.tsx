@@ -58,7 +58,7 @@ export default NewProduct;
  * - Son 3 pasos:
  *  1. Importar Form de react-router-dom--> permite el atributo method=''
  *  2. Crear la funcion
- *  3. En el router indicar cual es la funcion a ejecutar.
+ *  3. En el router indicar cual es la funcion a ejecutar. import NewProduct, {action as newProductAction} from "./views/NewProduct"; y agregamos la property action: newProductAction en el path: /products/new que es donde nos interesa.
  * 
  * OJO: La funcion action vive FUERA del componente, el primer impulso fue escribirla dentro por lo aprendido en react clasico, Pero con React Router Data APIs el paradigma cambia:
 
