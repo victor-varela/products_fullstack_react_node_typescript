@@ -2,4 +2,5 @@
 - Usamos el viejo y querido componente Outlet al igual que el proyecto de bebidas y el key index:true para que la app sepa que en el path:'/' es el index, la pagina principal.
 - Ahora podemos hacer el diseño en Layout y se va a compartir en Outlet. El flujo es asi: Layout tiene un diseño y lo comparte con Outlet. 
 - Agregamos el routing con <Link><Link/> para navegar las views.
-- Usamos la nueva funcion de reat para procesar los Formularios. Eso es: usar la funcion action e importar el componente Form de react-roter-dom.
+- Usamos la nueva funcion de reat para procesar los Formularios. Eso es: usar la funcion action e importar el componente Form de react-roter-dom.7
+- Creamos componente Error reutilizable.

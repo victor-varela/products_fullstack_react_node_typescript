@@ -1,10 +1,23 @@
-import { Link, Form } from "react-router-dom";
+import { Link, Form, useActionData, type ActionFunctionArgs } from "react-router-dom";
+import ErrorMessage from "../components/ErrorMessage";
 
-export async function action() {
-  console.log("desde action...");
+type ActionData ={
+  error?: string
+}
+
+export async function action({ request }:ActionFunctionArgs) {
+  const data = Object.fromEntries(await request.formData());
+
+  if (Object.values(data).includes("")) {
+    return { error: "Todos los campos son obligatorios" }; //esto agrega al objeto data la propiedad error que vamos a usar en el componente.
+  }
+
   return {};
 }
 const NewProduct = () => {
+  const data = useActionData<ActionData>(); //traemos la variable data de la funcion action a traves de este hook.
+ 
+
   return (
     <>
       <div className="flex justify-between">
@@ -16,6 +29,7 @@ const NewProduct = () => {
           Volver a Productos
         </Link>
       </div>
+    {data?.error && <ErrorMessage>{data.error}</ErrorMessage>}
       <Form className="mt-10" method="POST">
         <div className="mb-4">
           <label className="text-gray-800" htmlFor="name">
@@ -70,6 +84,7 @@ Delegás la lógica al router
 Componente → UI
 
 Loader / Action → datos y efectos
-- 
+
+- En el momento que retornamos algo en la funcion action estara disponible en el componente por medio de un hook llamado useActionData, asi conectamos las variables que creamos en el action con el componente---> logica--> UI
  *
  */
