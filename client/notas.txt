@@ -4,3 +4,6 @@
 - Agregamos el routing con <Link><Link/> para navegar las views.
 - Usamos la nueva funcion de reat para procesar los Formularios. Eso es: usar la funcion action e importar el componente Form de react-roter-dom.7
 - Creamos componente Error reutilizable.
+- Creamos carpeta services para conectar Front y Back. Dentro de la carpeta van las funciones que ejecutan las acciones de la API.
+- Instalamos Valibot -npm i valibot -  para validar los datos para asegurarnos que lo que vamos a enviar cumpla con lo que requerimos antes de enviar a la REST API, como lo habiamos hecho con ZOD, te acuerdas? yo no mucho pero algo me acuerdo.. jeje
+- Creamos carpeta Types para definir los schemas a validar con valibot.

@@ -1,22 +1,25 @@
 import { Link, Form, useActionData, type ActionFunctionArgs } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
+import { addProduct } from "../services/ProductService";
 
-type ActionData ={
-  error?: string
-}
+type ActionData = {
+  error?: string;
+};
 
-export async function action({ request }:ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const data = Object.fromEntries(await request.formData());
 
   if (Object.values(data).includes("")) {
-    return { error: "Todos los campos son obligatorios" }; //esto agrega al objeto data la propiedad error que vamos a usar en el componente.
+    return { error: "Todos los campos son obligatorios" }; //esto agrega al objeto data la propiedad error que vamos a usar en el componente.-> UI
   }
+
+  //Paso la validacion llamamos la funcion que maneja la peticion API
+  addProduct(data)
 
   return {};
 }
 const NewProduct = () => {
   const data = useActionData<ActionData>(); //traemos la variable data de la funcion action a traves de este hook.
- 
 
   return (
     <>
@@ -29,7 +32,7 @@ const NewProduct = () => {
           Volver a Productos
         </Link>
       </div>
-    {data?.error && <ErrorMessage>{data.error}</ErrorMessage>}
+      {data?.error && <ErrorMessage>{data.error}</ErrorMessage>}
       <Form className="mt-10" method="POST">
         <div className="mb-4">
           <label className="text-gray-800" htmlFor="name">
