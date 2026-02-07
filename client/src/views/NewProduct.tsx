@@ -1,4 +1,4 @@
-import { Link, Form, useActionData, type ActionFunctionArgs } from "react-router-dom";
+import { Link, Form, useActionData, type ActionFunctionArgs, redirect } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import { addProduct } from "../services/ProductService";
 
@@ -13,10 +13,11 @@ export async function action({ request }: ActionFunctionArgs) {
     return { error: "Todos los campos son obligatorios" }; //esto agrega al objeto data la propiedad error que vamos a usar en el componente.-> UI
   }
 
-  //Paso la validacion llamamos la funcion que maneja la peticion API
-  addProduct(data)
+  //Paso la validacion llamamos la funcion que maneja la peticion API- Esperamos que termine
+ await addProduct(data)
 
-  return {};
+//Redireccinamos a '/'
+  return redirect('/');
 }
 const NewProduct = () => {
   const data = useActionData<ActionData>(); //traemos la variable data de la funcion action a traves de este hook.
@@ -89,5 +90,6 @@ Componente → UI
 Loader / Action → datos y efectos
 
 - En el momento que retornamos algo en la funcion action estara disponible en el componente por medio de un hook llamado useActionData, asi conectamos las variables que creamos en el action con el componente---> logica--> UI
+- La function action es asincrona porque va a interactuar con la DB, y tambien hay que esperar AWAIT que la funcion addProduct termine para seguir corriendo el codigo de la app que en este caso es redireccionar al user a '/', para ello usamos REDIRECT de react-router-dom.
  *
  */

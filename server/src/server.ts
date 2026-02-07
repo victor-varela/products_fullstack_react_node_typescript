@@ -1,22 +1,37 @@
 import express from "express";
-import colors from 'colors'
-import swaggerUi from 'swagger-ui-express'
+import colors from "colors";
+import swaggerUi from "swagger-ui-express";
 import { router } from "./router";
 import { db } from "./config/db";
-import swaggerSpec, {swaggerUiOptions} from "./config/swagger";
-
+import swaggerSpec, { swaggerUiOptions } from "./config/swagger";
+import cors, { CorsOptions } from "cors";
 
 //Instancia de Express
 const server = express();
 
+//Permitir conexiones CORs
+const corsOptions: CorsOptions = {
+  origin: function (origin, callback) {
+    if (origin === process.env.FRONTEND_URL) {
+      //usamos la callback para permitir la conexion, si nos paramos sobre la funcion vemos los parametros
+      callback(null, true); //no hay error, origin true
+    } else {
+      callback(new Error("Error de CORS"));
+    }
+  },
+};
+
+//Instaciamos Cors
+server.use(cors(corsOptions));
+
 //Middelware que permite leer JSON en el body
-server.use(express.json())
+server.use(express.json());
 
 //2-Conecting DB- Sequelize / PostreSql / Render
 export const connectDb = async () => {
   try {
     await db.authenticate();
-    db.sync()//para actualizar las tablas cada vez que se autentique
+    db.sync(); //para actualizar las tablas cada vez que se autentique
     // console.log(colors.blue("Connection has been established successfully."));// se comenta para evitar error en el Test por el console.log
   } catch (error) {
     console.error(colors.red.bold("Unable to connect to the database:"), error);
@@ -31,15 +46,15 @@ connectDb();
 server.use("/api/products", router);
 
 // //Creamos una ruta para Test del server
-server.get('/api', (req, res)=>{
-  res.json({"msg":"Desde API"})
-})
+server.get("/api", (req, res) => {
+  res.json({ msg: "Desde API" });
+});
 
-//Creamos ruta pra la Documentacion 
+//Creamos ruta pra la Documentacion
 //swaggerUi.serve -->	Sirve archivos estáticos del UI
 //swaggerUi.setup(swaggerSpec)-->	Renderiza la UI con tu especificación
 
-server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOptions)) 
+server.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOptions));
 
 export default server;
 
@@ -60,5 +75,7 @@ index maneja a --> Server maneja a --> Db
 
 - Para documentar la API, importamos swaggerUiExpress y swaggerJsDoc. Entonces tenemos la ruta para que cree la pagina de documentacion.
 
+- Configuramos CORs para permitir el acceso a nuestro back de los origin que queramos. 
+- Guardamos en .env la FRONTEND_URL ya que va a cambiar en el deploy.
 
 */
