@@ -22,7 +22,7 @@ const corsOptions: CorsOptions = {
     }
   },
 };
-
+//MIDDELWARES GLOBALES
 //Instaciamos Cors
 server.use(cors(corsOptions));
 
@@ -47,6 +47,7 @@ connectDb();
 
 //1-Routing
 
+//Middleware de Rutas
 //Enlazamos las rutas principales
 server.use("/api/products", router);
 
@@ -82,6 +83,6 @@ index maneja a --> Server maneja a --> Db
 
 - Configuramos CORs Options para permitir el acceso a nuestro back de los origin que queramos y luego instanciomos cors con las options recien definidas.
 - Guardamos en .env la FRONTEND_URL ya que va a cambiar en el deploy.
-- Iniciamos morgan. Morgan es el “historial automático” de peticiones HTTP de tu API. Morgan es un middleware GLOBAL por eso va ANTES de las rutas para que pueda VER/OBSERVAR TODOS los REQUEST. va antes de server.use('/api/products/, router) porque a partir de ahi los request son procesados por el router.
+- Iniciamos morgan. Morgan es el “historial automático” de peticiones HTTP de tu API. Morgan es un middleware GLOBAL por eso va ANTES de las rutas para que pueda VER/OBSERVAR TODOS los REQUEST. va antes de server.use('/api/products/, router) porque a partir de ahi los request son procesados por el router. ---> “middle – ware” → software que está en el medio <---
 
 */
