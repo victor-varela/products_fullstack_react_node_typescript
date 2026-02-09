@@ -1,10 +1,12 @@
 import express from "express";
 import colors from "colors";
+import morgan from 'morgan'
 import swaggerUi from "swagger-ui-express";
 import { router } from "./router";
 import { db } from "./config/db";
 import swaggerSpec, { swaggerUiOptions } from "./config/swagger";
 import cors, { CorsOptions } from "cors";
+
 
 //Instancia de Express
 const server = express();
@@ -26,6 +28,9 @@ server.use(cors(corsOptions));
 
 //Middelware que permite leer JSON en el body
 server.use(express.json());
+
+//Inicializamos morgan. Morgan es el “historial automático” de peticiones HTTP de tu API.
+server.use(morgan('dev'))
 
 //2-Conecting DB- Sequelize / PostreSql / Render
 export const connectDb = async () => {
@@ -75,7 +80,8 @@ index maneja a --> Server maneja a --> Db
 
 - Para documentar la API, importamos swaggerUiExpress y swaggerJsDoc. Entonces tenemos la ruta para que cree la pagina de documentacion.
 
-- Configuramos CORs para permitir el acceso a nuestro back de los origin que queramos. 
+- Configuramos CORs Options para permitir el acceso a nuestro back de los origin que queramos y luego instanciomos cors con las options recien definidas.
 - Guardamos en .env la FRONTEND_URL ya que va a cambiar en el deploy.
+- Iniciamos morgan. Morgan es el “historial automático” de peticiones HTTP de tu API. Morgan es un middleware GLOBAL por eso va ANTES de las rutas para que pueda VER/OBSERVAR TODOS los REQUEST. va antes de server.use('/api/products/, router) porque a partir de ahi los request son procesados por el router.
 
 */
