@@ -14,8 +14,12 @@ const server = express();
 //Permitir conexiones CORs
 const corsOptions: CorsOptions = {
   origin: function (origin, callback) {
-    console.log(origin);
-    
+     // Permitir peticiones sin origin (Postman, navegador directo)
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    //Restringimos peticiones de origin definido === FRONTEND_URL
     if (origin === process.env.FRONTEND_URL) {
       //usamos la callback para permitir la conexion, si nos paramos sobre la funcion vemos los parametros
       callback(null, true); //no hay error, origin true
