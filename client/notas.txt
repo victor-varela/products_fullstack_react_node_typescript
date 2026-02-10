@@ -7,6 +7,7 @@
 - Creamos carpeta services para conectar Front y Back. Dentro de la carpeta van las funciones que ejecutan las acciones de la API.
 - Instalamos Valibot -npm i valibot -  para validar los datos para asegurarnos que lo que vamos a enviar cumpla con lo que requerimos antes de enviar a la REST API, como lo habiamos hecho con ZOD, te acuerdas? yo no mucho pero algo me acuerdo.. jeje
 - Creamos carpeta Types para definir los schemas a validar con valibot.
+- En services creamos y agrupamos las funciones que interactuan con la API y las llamamos en los componentes segun corresponda.
 - Instalamos axios npm i axios para comunicar con la REST API
 - CORS es un mecanismo de seguridad que impide compartir recursos de origen cruzado.“Un sitio web solo puede hacer peticiones AJAX a su mismo origen, salvo que el servidor de destino lo permita explícitamente.” El front y el back estan en puertos diferentes y luego estaran en dominios diferente cuando deploy y hay que configurar el cors para que se 'permita' el intercambio de datos entre origenes diferentes.
 

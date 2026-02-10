@@ -27,7 +27,7 @@ export const createProduct = async (req: Request, res: Response) => {
 //2. Ahora que hemos creado producots podemos escribir el codigo para obtener productos
 export const getProducts = async (req: Request, res: Response) => {
     const products = await Product.findAll({
-      attributes: { exclude: ["createdAt", "updatedAt", "availability"] },
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     });
 
     res.json({ data: products });
