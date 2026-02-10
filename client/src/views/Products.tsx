@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
 import { getProducts } from "../services/ProductService";
 
-
 //Aca se define el LOADER, recuerda ya no es parte del componente por eso no esta dentro de Product. Es logica y lo maneja reactRouterDom.
 
 //Definicion alternativa= export const loader= async(){}
 export async function loader() {
   //Usamos nuestro service para traer data de la API
-  await getProducts()
-  return {}
+const products = await getProducts();
+  console.log(products);
+
+  return {};
 }
 
 const Products = () => {
