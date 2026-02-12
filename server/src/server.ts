@@ -29,6 +29,8 @@ const corsOptions: CorsOptions = {
   },
 };
 //MIDDELWARES GLOBALES
+
+
 //Instaciamos Cors
 server.use(cors(corsOptions));
 

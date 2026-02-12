@@ -19,3 +19,4 @@
 - Instalamos cors en el SERVER- DESDE LA TERMINAL DE SERVER-- npm i cors, npm i -D @types/cors. Cors UNICAMENTE VIVE EN EL SERVER
 - En SERVER: Instalamos morgan: Morgan es el “historial automático” de peticiones HTTP de tu API. npm i morgan / npm i -D @types/morgan
 - Usamos al igual que habiamos trabajado con ACTION, ahora usamos LOADERS.. es un 'metodo' de react-reactRouterDom para 'cargar' data en un componente, similar como haciamos con useEffect o Zustand o un reducer..
+- ACTIONS Y LOADERS son de los principales conceptos del proyecto. Implementar otra forma de obtener y mostrar estados/datos dependiendo si son de un formulario -> ACTION o de una API -> LOADERS.

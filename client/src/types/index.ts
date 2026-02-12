@@ -15,7 +15,7 @@ export const ProductSchema = object({
   availability: boolean(),
 });
 
-//En el services vemos que data es any asi que aca creamos un type (no lo usamos en services, error del profe??)
+//En el services vemos que data es any asi que aca creamos un type. Lo usamos para iterar sobre el array de products en el componente y que Ts no se queje === const products = useLoader() as Product[], ahi Ts lo reconoce como un array.
 export type Product = InferOutput<typeof ProductSchema>
 
 // Creamos un Schema ProductsSchema (en plural) para validar los datos ya que a respuesta de la API a .getProducts es un ARRAY
