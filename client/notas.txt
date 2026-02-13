@@ -20,3 +20,6 @@
 - En SERVER: Instalamos morgan: Morgan es el “historial automático” de peticiones HTTP de tu API. npm i morgan / npm i -D @types/morgan
 - Usamos al igual que habiamos trabajado con ACTION, ahora usamos LOADERS.. es un 'metodo' de react-reactRouterDom para 'cargar' data en un componente, similar como haciamos con useEffect o Zustand o un reducer..
 - ACTIONS Y LOADERS son de los principales conceptos del proyecto. Implementar otra forma de obtener y mostrar estados/datos dependiendo si son de un formulario -> ACTION o de una API -> LOADERS.
+- En este punto hemos hecho la primer y segunda accion del CRUD. Estos proyectos se basan en hacer un CRUD completo y las diferentes formas de llevarlo a cabo. Primero tuvimos que crear productos --> 'addProduct'/action, luego mostrar los productos Product.tsx/loader y ahora editar un producto.
+- Creamos la ruta en router.tsx para editar productos.
+- Me voy dando cuenta que el router.tsx es quien lleva la batuta en el flujo de la app. Definir las rutas y luegos los elementos que se muestran en cada una es el punto de partida para cada accion.--> es asi? preguntale al chat:

@@ -13,7 +13,11 @@ const ProductDetails = ({product}:ProductDetailsProps) => {
       <td className="p-3 text-lg text-gray-800">{product.name}</td>
       <td className="p-3 text-lg text-gray-800">{formatCurrency(product.price)}</td>
       <td className="p-3 text-lg text-gray-800">{isAvailable?'Disponible':'No Disponible'}</td>
-      <td className="p-3 text-lg text-gray-800 ">EDITAR - ELIMINAR</td>
+      <td className="p-3 text-lg text-gray-800 ">
+        <div>
+          <button>EDITAR</button>
+        </div>
+      </td>
     </tr>
   );
 };
@@ -23,7 +27,7 @@ export default ProductDetails;
 /**
  * - Creamos el type de las props del componente
  * - Usamos una funcion helper para formato de precio formatCurrency()
- * 
+ * -Creamos la ruta en router.tsx para editar productos.
  * 
  * 
  * 
