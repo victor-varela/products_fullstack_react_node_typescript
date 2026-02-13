@@ -1,21 +1,25 @@
+import { Link } from "react-router-dom";
 import type { Product } from "../types";
 import { formatCurrency } from "../utils";
 
-type ProductDetailsProps ={
-    product: Product
-}
+type ProductDetailsProps = {
+  product: Product;
+};
 
-const ProductDetails = ({product}:ProductDetailsProps) => {
-    //availability es boolean por eso no se imprime directamente en el template
-    const isAvailable = product.availability
+const ProductDetails = ({ product }: ProductDetailsProps) => {
+  //availability es boolean por eso no se imprime directamente en el template
+  const isAvailable = product.availability;
   return (
     <tr className="border-b ">
       <td className="p-3 text-lg text-gray-800">{product.name}</td>
       <td className="p-3 text-lg text-gray-800">{formatCurrency(product.price)}</td>
-      <td className="p-3 text-lg text-gray-800">{isAvailable?'Disponible':'No Disponible'}</td>
+      <td className="p-3 text-lg text-gray-800">{isAvailable ? "Disponible" : "No Disponible"}</td>
       <td className="p-3 text-lg text-gray-800 ">
-        <div>
-          <button>EDITAR</button>
+        <div className="flex gap-2 items-center">
+          <Link 
+          to={`/products/${product.id}/edit`}
+          className="bg-indigo-600 text-white text-xs uppercase p-2 rounded-lg w-full text-center font-bold"
+          >EDITAR</Link>
         </div>
       </td>
     </tr>
@@ -28,8 +32,9 @@ export default ProductDetails;
  * - Creamos el type de las props del componente
  * - Usamos una funcion helper para formato de precio formatCurrency()
  * -Creamos la ruta en router.tsx para editar productos.
- * 
- * 
- * 
- * 
+ * - Podemos usar tanto Link como useNavigate para movernos dentro de la app.
+ *
+ *
+ *
+ *
  */

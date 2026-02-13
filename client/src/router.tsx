@@ -20,7 +20,7 @@ const router = createBrowserRouter([
         action: newProductAction,
       },
       {
-        path: "products/:id/edit",
+        path: "products/:id/edit", //ROA pattern - Resource-oriented design
         element: <EditProduct />,
       },
     ],
