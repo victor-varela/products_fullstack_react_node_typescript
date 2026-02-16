@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "./Layouts/Layout";
 import Products, { loader as productLoader } from "./views/Products";
 import NewProduct, { action as newProductAction } from "./views/NewProduct";
-import EditProduct from "./views/EditProduct";
+import EditProduct, {loader as editProductLoader} from "./views/EditProduct";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +21,8 @@ const router = createBrowserRouter([
       },
       {
         path: "products/:id/edit", //ROA pattern - Resource-oriented design
-        element: <EditProduct />,
+        element: <EditProduct />, //esta vista carga el producto clickeado por user-- usamos loader--
+        loader: editProductLoader
       },
     ],
   },
@@ -37,4 +38,5 @@ export default router;
  * - Usamos React Router Data APIs: importamos la funcion action del componente NewProduct y la renombramos. Siempre las fucniones que manejan las ruta se llaman action y las debemos renombrar. import NewProduct, {action as newProductAction} from "./views/NewProduct";
  * - Usamos LOADER: importamos la funcion loader del componente Product.tsx y la renombramos. Siempre las fucniones que manejan las ruta se llaman action/loader y las debemos renombrar. import Product, {loader as loaderProduct} from "./views/NewProduct" y configuramos la ruta, le agregamos el loader en la ruta para que sepa que tiene esa funcion.
  * - Creamos la ruta para editar productos. usamos :id para indicar que se pasa un id en el navegador.
+ * - La vista EditProducts usa un loader por ello lo definimos como corresponde con su alias.
  */

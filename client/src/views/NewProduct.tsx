@@ -14,10 +14,10 @@ export async function action({ request }: ActionFunctionArgs) {
   }
 
   //Paso la validacion llamamos la funcion que maneja la peticion API- Esperamos que termine
- await addProduct(data)
+  await addProduct(data);
 
-//Redireccinamos a '/'
-  return redirect('/');
+  //Redireccinamos a '/'
+  return redirect("/");
 }
 const NewProduct = () => {
   const data = useActionData<ActionData>(); //traemos la variable data de la funcion action a traves de este hook.
@@ -82,7 +82,7 @@ export default NewProduct;
 
 Ya no manejás eventos
 
-Delegás la lógica al router
+Delegás la lógica al router-->Router poder
  * React Router impone esta idea:
 
 Componente → UI
@@ -91,5 +91,6 @@ Loader / Action → datos y efectos
 
 - En el momento que retornamos algo en la funcion action estara disponible en el componente por medio de un hook llamado useActionData, asi conectamos las variables que creamos en el action con el componente---> logica--> UI
 - La function action es asincrona porque va a interactuar con la DB, y tambien hay que esperar AWAIT que la funcion addProduct termine para seguir corriendo el codigo de la app que en este caso es redireccionar al user a '/', para ello usamos REDIRECT de react-router-dom.
- *
+ * - Usamos Link para direccionar al user en la app Link to='/' vuelve a index
+   - Este template se repite en EditProduct pero cambia Link to={/products/:id/edit}
  */
