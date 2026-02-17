@@ -1,12 +1,40 @@
-import { Form, Link } from "react-router-dom";
+import { Form, Link, redirect, useActionData, type ActionFunctionArgs, type LoaderFunctionArgs } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
+import { addProduct, getProductsById } from "../services/ProductService";
+import type { ActionData } from "./NewProduct";
 
 //definimos loader para obtener el id (params) del producto clickeado por user- OJO se hace FUERA DEL COMPONENTE, esto es logica y lo pasas a router.tsx por FUERA... jeje
-export const loader = async () => {
-  console.log("desde loader...");
+
+export const loader = async ({params:{id}}:LoaderFunctionArgs) => {
+
+  //Llamamos la funcion services que se comunica con la API
+
+  //Verificamos que id no sea undefined porque Ts se quejaba
+  if(id!== undefined){
+
+    //Convertimos a number id porque Ts se quejaba
+   const product = await getProductsById(+id)
+   console.log(product);
+   
+  }
+  return{}
 };
+export async function action({ request }: ActionFunctionArgs) {
+  const data = Object.fromEntries(await request.formData());
+
+  if (Object.values(data).includes("")) {
+    return { error: "Todos los campos son obligatorios" }; //esto agrega al objeto data la propiedad error que vamos a usar en el componente.-> UI
+  }
+
+  //Paso la validacion llamamos la funcion que maneja la peticion API- Esperamos que termine
+  await addProduct(data);
+
+  //Redireccinamos a '/'
+  return redirect("/");
+}
 
 const EditProduct = () => {
+  const data = useActionData<ActionData>(); //traemos la variable data de la funcion action a traves de este hook. 
   return (
     <>
       <div className="flex justify-between">
@@ -18,7 +46,7 @@ const EditProduct = () => {
           Volver a Productos
         </Link>
       </div>
-      {/* {data?.error && <ErrorMessage>{data.error}</ErrorMessage>} */}
+      {data?.error&& <ErrorMessage>{data.error}</ErrorMessage>}
       <Form className="mt-10" method="POST">
         <div className="mb-4">
           <label className="text-gray-800" htmlFor="name">
@@ -63,6 +91,18 @@ export default EditProduct;
  * - Repasamos los pasos para loader:
  *      - Creamos la funcion. Es async porque va a la api
  *      - En router.tsx 'el director de esta orquesta' extremos con un alias el loader. para que la app sepa que este componente tiene un loader y lo mande a llamar en tiempo y forma
+ * - Usando el enfoque paramas, simplemente lo recuperamos cuando llamamos a loader({params}) y ahi esta! el type de paramas es : LoaderFunctionArgs. Se puede inferir en VsCode desde el loader que esta en router, te paras sobre loader y ahi sale.
+ * 
+ * 
+ * - Este loader hace basicamente lo mismo que el loader de products, pero solo tremos byId. Copiamos el loader de products y ajustamos:
+ * 
+ *     Agregamos id en la ruta que hace la peticion   
+ *     const url = `${import.meta.env.VITE_API_URL}/api/products/${id}`;
+ * 
+ *     Usamos el schema de UN producto no de TODOS para validacion
+ *      //Validamos con Valibot primero. Usamos el Schema ProductSchema 'en singular'
+        const result = safeParse(ProductSchema, data.data);
+ *  
  *
  *
  *

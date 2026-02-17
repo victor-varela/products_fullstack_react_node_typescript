@@ -23,3 +23,11 @@
 - En este punto hemos hecho la primer y segunda accion del CRUD. Estos proyectos se basan en hacer un CRUD completo y las diferentes formas de llevarlo a cabo. Primero tuvimos que crear productos --> 'addProduct'/action, luego mostrar los productos Product.tsx/loader y ahora editar un producto.
 - Creamos la ruta en router.tsx para editar productos.
 - Me voy dando cuenta que el router.tsx es quien lleva la batuta en el flujo de la app. Definir las rutas y luegos los elementos que se muestran en cada una es el punto de partida para cada accion.--> es asi? preguntale al chat: si es asi, victorino. Lo ves desde que main.tsx esta cubierto por RouterProvider y en router.tsx ves el poder que tiene de renderizar, cargar datos en los elementos, manejar actions, etc..
+
+                Data Router organiza la app como:
+
+                        URL → datos → UI
+                        
+                Context organiza la app como:
+
+                        Estado global → múltiples componentes

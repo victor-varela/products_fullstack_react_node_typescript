@@ -2,7 +2,7 @@ import { Link, Form, useActionData, type ActionFunctionArgs, redirect } from "re
 import ErrorMessage from "../components/ErrorMessage";
 import { addProduct } from "../services/ProductService";
 
-type ActionData = {
+export type ActionData = {
   error?: string;
 };
 
