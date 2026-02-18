@@ -21,7 +21,10 @@ export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
   if (id !== undefined) {
     //Guardamos la data en product y Convertimos a number id porque Ts se quejaba
     const product = await getProductsById(+id);
-
+    //Validamos que el producto exista
+    if(!product){
+      return redirect('/')
+    }
     //retornamos product
     return product;
   }
