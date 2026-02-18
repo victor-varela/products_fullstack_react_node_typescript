@@ -1,23 +1,30 @@
-import { Form, Link, redirect, useActionData, type ActionFunctionArgs, type LoaderFunctionArgs } from "react-router-dom";
+import {
+  Form,
+  Link,
+  redirect,
+  useActionData,
+  useLoaderData,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+} from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import { addProduct, getProductsById } from "../services/ProductService";
 import type { ActionData } from "./NewProduct";
+import type { Product } from "../types";
 
 //definimos loader para obtener el id (params) del producto clickeado por user- OJO se hace FUERA DEL COMPONENTE, esto es logica y lo pasas a router.tsx por FUERA... jeje
 
-export const loader = async ({params:{id}}:LoaderFunctionArgs) => {
-
+export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
   //Llamamos la funcion services que se comunica con la API
 
   //Verificamos que id no sea undefined porque Ts se quejaba
-  if(id!== undefined){
+  if (id !== undefined) {
+    //Guardamos la data en product y Convertimos a number id porque Ts se quejaba
+    const product = await getProductsById(+id);
 
-    //Convertimos a number id porque Ts se quejaba
-   const product = await getProductsById(+id)
-   console.log(product);
-   
+    //retornamos product
+    return product;
   }
-  return{}
 };
 export async function action({ request }: ActionFunctionArgs) {
   const data = Object.fromEntries(await request.formData());
@@ -34,7 +41,11 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 const EditProduct = () => {
-  const data = useActionData<ActionData>(); //traemos la variable data de la funcion action a traves de este hook. 
+  const data = useActionData<ActionData>(); //traemos la variable data de la funcion action a traves de este hook.
+
+  //Traemos la data que hay en loader
+  const product = useLoaderData() as Product;
+
   return (
     <>
       <div className="flex justify-between">
@@ -46,7 +57,7 @@ const EditProduct = () => {
           Volver a Productos
         </Link>
       </div>
-      {data?.error&& <ErrorMessage>{data.error}</ErrorMessage>}
+      {data?.error && <ErrorMessage>{data.error}</ErrorMessage>}
       <Form className="mt-10" method="POST">
         <div className="mb-4">
           <label className="text-gray-800" htmlFor="name">
@@ -58,6 +69,7 @@ const EditProduct = () => {
             className="mt-2 block w-full p-3 bg-gray-50"
             placeholder="Nombre del Producto"
             name="name"
+            defaultValue={product.name}
           />
         </div>
         <div className="mb-4">
@@ -70,6 +82,7 @@ const EditProduct = () => {
             className="mt-2 block w-full p-3 bg-gray-50"
             placeholder="Precio Producto. ej. 200, 300"
             name="price"
+            defaultValue={product.price}
           />
         </div>
         <input
@@ -103,7 +116,7 @@ export default EditProduct;
  *      //Validamos con Valibot primero. Usamos el Schema ProductSchema 'en singular'
         const result = safeParse(ProductSchema, data.data);
  *  
- *
+ * - Finalmente usamos el atribuno defaultValue en el input para completar los datos que tenemos en nuestra variable product y asi se llena el formulario en automatico.
  *
  *
  *

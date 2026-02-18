@@ -31,3 +31,4 @@
                 Context organiza la app como:
 
                         Estado global → múltiples componentes
+- Usamos el enfoque params para tomar el id de la url y consultar la api con ese id.
