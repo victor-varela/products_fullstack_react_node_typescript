@@ -8,7 +8,7 @@ import {
   type LoaderFunctionArgs,
 } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
-import { addProduct, getProductsById } from "../services/ProductService";
+import { addProduct, getProductsById, updateProduct } from "../services/ProductService";
 import type { ActionData } from "./NewProduct";
 import type { Product } from "../types";
 
@@ -29,7 +29,7 @@ export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
     return product;
   }
 };
-export async function action({ request }: ActionFunctionArgs) {
+export async function action({ request, params }: ActionFunctionArgs) {
   const data = Object.fromEntries(await request.formData());
 
   if (Object.values(data).includes("")) {
@@ -37,7 +37,8 @@ export async function action({ request }: ActionFunctionArgs) {
   }
 
   //Paso la validacion llamamos la funcion que maneja la peticion API- Esperamos que termine
-  await addProduct(data);
+  //Este action tiene como parametros a params para poder usar el id de URL
+  await updateProduct(data, params.id );
 
   //Redireccinamos a '/'
   return redirect("/");
@@ -120,6 +121,10 @@ export default EditProduct;
         const result = safeParse(ProductSchema, data.data);
  *  
  * - Finalmente usamos el atribuno defaultValue en el input para completar los datos que tenemos en nuestra variable product y asi se llena el formulario en automatico.
+ * 
+ * - El enfoque params es mejor para evitar que la app truene si un usuario quiere compartir la url. Es mejor apoyarse en la url siempre.
+ * 
+ * - Para editar un producto debemos usar crear una nueva funcion que lleve esa data a la API--> updateProduct. Esta funcion tiene 2 parametros, data (la ingresada por user en el formulario) y Id (para que la api haga el PUT en el producto que corresponde. No es un POST ni GET ni PATH).
  *
  *
  *

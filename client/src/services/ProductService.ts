@@ -2,6 +2,7 @@ import { safeParse } from "valibot";
 import { DraftProductSchema, ProductsSchema, ProductSchema, type Product } from "../types";
 import axios from "axios";
 
+
 type ProductData = {
   [k: string]: FormDataEntryValue;
 };
@@ -58,7 +59,7 @@ export async function getProductsById(id:Product['id']) {
     const url = `${import.meta.env.VITE_API_URL}/api/products/${id}`;
     const { data } = await axios(url);
 
-    //Validamos con Valibot primero. Usamos el Schema ProductsSchema 'en plural'
+    //Validamos con Valibot primero. Usamos el Schema ProductSchema 'en singular'
     const result = safeParse(ProductSchema, data.data);
     
     //Paso la validacion - guardamos retornamos, esto lo va asignar a la funcion que llama a getProductById, es decir, al loader en EditProduct.tsx
@@ -69,6 +70,14 @@ export async function getProductsById(id:Product['id']) {
     }
   } catch (error) {}
 }
+
+//Actualizar Producto
+export async function updateProduct(data: Product, id: Product['id']){
+  console.log(data);
+  console.log(id);
+  
+}
+
 
 /**
  * - Inferimos el type de data desde el componente NewProduct parandonos con el cursor  [k: string]: FormDataEntryValue. Y creamos un type en este archivo para asignarselo al parametro de la funcion addProduct
