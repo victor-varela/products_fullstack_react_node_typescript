@@ -1,7 +1,7 @@
 import { safeParse } from "valibot";
 import { DraftProductSchema, ProductsSchema, ProductSchema, type Product } from "../types";
 import axios from "axios";
-
+import { toBoolean } from "../utils";
 
 type ProductData = {
   [k: string]: FormDataEntryValue;
@@ -30,7 +30,6 @@ export async function addProduct(data: ProductData) {
 
 //Obtener Datos de la API
 
-
 //Traer todos los productos
 export async function getProducts() {
   //Siempre tryCatch porque vamos a interactuar con APIs
@@ -52,7 +51,7 @@ export async function getProducts() {
 }
 
 //Traer producto byId
-export async function getProductsById(id:Product['id']) {
+export async function getProductsById(id: Product["id"]) {
   //Siempre tryCatch porque vamos a interactuar con APIs
   try {
     //Hacemos la peticion .get la info esta en el objeto data.data. Ya teniamos nuestra ruta en el back api/products/id
@@ -61,7 +60,7 @@ export async function getProductsById(id:Product['id']) {
 
     //Validamos con Valibot primero. Usamos el Schema ProductSchema 'en singular'
     const result = safeParse(ProductSchema, data.data);
-    
+
     //Paso la validacion - guardamos retornamos, esto lo va asignar a la funcion que llama a getProductById, es decir, al loader en EditProduct.tsx
     if (result.success) {
       return result.output;
@@ -72,12 +71,19 @@ export async function getProductsById(id:Product['id']) {
 }
 
 //Actualizar Producto
-export async function updateProduct(data: Product, id: Product['id']){
-  console.log(data);
-  console.log(id);
-  
+export async function updateProduct(data: ProductData, id: Product["id"]) {
+  try {
+    const result = safeParse(ProductSchema, {
+      id,
+      name: data.name,
+      price: +data.price,
+      availability: toBoolean(data.availability.toString())
+    });
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
 }
-
 
 /**
  * - Inferimos el type de data desde el componente NewProduct parandonos con el cursor  [k: string]: FormDataEntryValue. Y creamos un type en este archivo para asignarselo al parametro de la funcion addProduct
@@ -87,7 +93,9 @@ export async function updateProduct(data: Product, id: Product['id']){
  * - Creamos carpeta en la raiz .env.local para la url de la aplicaion que va a cambiar en el deploy.
  * - Para enviar data con axios le agregamos el .post y enviamos el objeto que ESPERA nuestra API, name: price: con los datos validados de valibot que estan en el objeto result por eso usamos result.output.name/price
  *
- * - Creamos funcion para obetner los datos de la api getProducts(): esta funcion es casi igual a la de obtener todos los productos pero debemos ajusta la url, agregamos /id.. el type de id usamos Product['id'] es mas limpio el codigo, 
+ * - Creamos funcion para obetner los datos de la api getProducts(): esta funcion es casi igual a la de obtener todos los productos pero debemos ajusta la url, agregamos /id.. el type de id usamos Product['id'] es mas limpio el codigo,
+ * 
+ * - Usamos funcion utils para convertir a boolean lo que esta en data.availability ya que viene por defecto en string por ser de un formulario.
  *
  *
  *

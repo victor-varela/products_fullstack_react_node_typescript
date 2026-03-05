@@ -8,7 +8,7 @@ import {
   type LoaderFunctionArgs,
 } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
-import { addProduct, getProductsById, updateProduct } from "../services/ProductService";
+import { getProductsById, updateProduct } from "../services/ProductService";
 import type { ActionData } from "./NewProduct";
 import type { Product } from "../types";
 
@@ -22,14 +22,14 @@ export const loader = async ({ params: { id } }: LoaderFunctionArgs) => {
     //Guardamos la data en product y Convertimos a number id porque Ts se quejaba
     const product = await getProductsById(+id);
     //Validamos que el producto exista
-    if(!product){
-      return redirect('/')
+    if (!product) {
+      return redirect("/");
     }
     //retornamos product
     return product;
   }
 };
-export async function action({ request, params }: ActionFunctionArgs) {
+export async function action({ request, params: { id } }: ActionFunctionArgs) {
   const data = Object.fromEntries(await request.formData());
 
   if (Object.values(data).includes("")) {
@@ -38,11 +38,20 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   //Paso la validacion llamamos la funcion que maneja la peticion API- Esperamos que termine
   //Este action tiene como parametros a params para poder usar el id de URL
-  await updateProduct(data, params.id );
 
-  //Redireccinamos a '/'
-  return redirect("/");
+  //Validamos si id no es undefined porque Ts se queja y convertimos a number
+  if (id !== undefined) {
+    await updateProduct(data, +id);
+    //Redireccinamos a '/'
+    return redirect("/");
+  }
 }
+
+//Creamos objeto para agregar la disponibilidad de producto ya que estamos en Edicion
+const availabilityOptions = [
+  { name: "Disponible", value: true },
+  { name: "No Disponible", value: false },
+];
 
 const EditProduct = () => {
   const data = useActionData<ActionData>(); //traemos la variable data de la funcion action a traves de este hook.
@@ -88,6 +97,24 @@ const EditProduct = () => {
             name="price"
             defaultValue={product.price}
           />
+        </div>
+        {/* Agregamos campo para disponibilidad */}
+        <div className="mb-4">
+          <label className="text-gray-800" htmlFor="availability">
+            Disponibilidad:
+          </label>
+          <select
+            id="availability"
+            className="mt-2 block w-full p-3 bg-gray-50"
+            name="availability"
+            defaultValue={product?.availability.toString()}
+          >
+            {availabilityOptions.map(option => (
+              <option key={option.name} value={option.value.toString()}>
+                {option.name}
+              </option>
+            ))}
+          </select>
         </div>
         <input
           type="submit"
