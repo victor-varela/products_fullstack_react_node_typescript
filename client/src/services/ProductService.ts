@@ -77,9 +77,13 @@ export async function updateProduct(data: ProductData, id: Product["id"]) {
       id,
       name: data.name,
       price: +data.price,
-      availability: toBoolean(data.availability.toString())
+      availability: toBoolean(data.availability.toString()),
     });
-    console.log(result);
+    if (result.success) {
+      //llamamos api. metodo PUT
+      const url = `${import.meta.env.VITE_API_URL}/api/products/${id}`;
+      await axios.put(url, result.output);
+    }
   } catch (error) {
     console.log(error);
   }
@@ -94,7 +98,7 @@ export async function updateProduct(data: ProductData, id: Product["id"]) {
  * - Para enviar data con axios le agregamos el .post y enviamos el objeto que ESPERA nuestra API, name: price: con los datos validados de valibot que estan en el objeto result por eso usamos result.output.name/price
  *
  * - Creamos funcion para obetner los datos de la api getProducts(): esta funcion es casi igual a la de obtener todos los productos pero debemos ajusta la url, agregamos /id.. el type de id usamos Product['id'] es mas limpio el codigo,
- * 
+ *
  * - Usamos funcion utils para convertir a boolean lo que esta en data.availability ya que viene por defecto en string por ser de un formulario.
  *
  *

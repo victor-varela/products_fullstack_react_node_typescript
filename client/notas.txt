@@ -32,3 +32,5 @@
 
                         Estado global → múltiples componentes
 - Usamos el enfoque params para tomar el id de la url y consultar la api con ese id.
+
+- Creamos componente reutilizable (ProductForm.tsx) para las partes del formulario que se repiten en los componentes NewProduct y EditProduct. De esa forma personalizamos el boton de 'registrar producto' y 'guardar cambios'.

@@ -11,6 +11,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import { getProductsById, updateProduct } from "../services/ProductService";
 import type { ActionData } from "./NewProduct";
 import type { Product } from "../types";
+import ProductForm from "../components/ProductForm";
 
 //definimos loader para obtener el id (params) del producto clickeado por user- OJO se hace FUERA DEL COMPONENTE, esto es logica y lo pasas a router.tsx por FUERA... jeje
 
@@ -72,32 +73,11 @@ const EditProduct = () => {
       </div>
       {data?.error && <ErrorMessage>{data.error}</ErrorMessage>}
       <Form className="mt-10" method="POST">
-        <div className="mb-4">
-          <label className="text-gray-800" htmlFor="name">
-            Nombre Producto:
-          </label>
-          <input
-            id="name"
-            type="text"
-            className="mt-2 block w-full p-3 bg-gray-50"
-            placeholder="Nombre del Producto"
-            name="name"
-            defaultValue={product.name}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="text-gray-800" htmlFor="price">
-            Precio:
-          </label>
-          <input
-            id="price"
-            type="number"
-            className="mt-2 block w-full p-3 bg-gray-50"
-            placeholder="Precio Producto. ej. 200, 300"
-            name="price"
-            defaultValue={product.price}
-          />
-        </div>
+
+        {/* usamos el componente reutilizable y le enviamos la data para que se llene en automatico */}
+        <ProductForm
+          product={product}
+        />
         {/* Agregamos campo para disponibilidad */}
         <div className="mb-4">
           <label className="text-gray-800" htmlFor="availability">
@@ -119,7 +99,7 @@ const EditProduct = () => {
         <input
           type="submit"
           className="mt-5 w-full bg-indigo-600 p-2 text-white font-bold text-lg cursor-pointer rounded"
-          value="Registrar Producto"
+          value="Guardar Producto"
         />
       </Form>
     </>
@@ -152,6 +132,8 @@ export default EditProduct;
  * - El enfoque params es mejor para evitar que la app truene si un usuario quiere compartir la url. Es mejor apoyarse en la url siempre.
  * 
  * - Para editar un producto debemos usar crear una nueva funcion que lleve esa data a la API--> updateProduct. Esta funcion tiene 2 parametros, data (la ingresada por user en el formulario) y Id (para que la api haga el PUT en el producto que corresponde. No es un POST ni GET ni PATH).
+ * 
+ * - Nos valemos del componente reutilizable ProductForm para mostar la data del producto a editar. Este componente necesita recibir el producto, por lo tanto declaramos sus props. AL hacer eso y querer usarlo en NewProduct debemos aclararle a Ts que la prop es optional--optional chaining porque puede que el componente ProductForm la use (cuando es edicion) o no use la prop (cuando es registro)
  *
  *
  *

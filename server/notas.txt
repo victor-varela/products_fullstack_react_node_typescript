@@ -243,6 +243,8 @@ Sin ts-jest, Jest solo puede correr archivos .js.
 
   * Renombramos la carpeta donde esta todo el servidor como 'server'. Creamos una nueva carpeta que agrupe 'server' + 'client'* cuando queremos correr el cliente PRIMERO hay que instalar las dependencias npm install y despues npm run dev
 
+  * Este proyecto tiene la DB desplegada en NeonDB.
+
 
 
 
