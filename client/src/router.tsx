@@ -3,6 +3,7 @@ import Layout from "./Layouts/Layout";
 import Products, { loader as productLoader } from "./views/Products";
 import NewProduct, { action as newProductAction } from "./views/NewProduct";
 import EditProduct, {loader as editProductLoader, action as editProductAction} from "./views/EditProduct";
+import { action as deleteProductAction } from "./components/ProductDetails";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
         loader: editProductLoader,
         action: editProductAction //es un FORM por ello tiene su action.
       },
+      {
+        path:"products/:id/delete",
+        action: deleteProductAction
+      }
     ],
   },
 ]);

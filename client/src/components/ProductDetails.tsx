@@ -1,10 +1,19 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Form, redirect, useNavigate, type ActionFunctionArgs } from "react-router-dom";
 import type { Product } from "../types";
 import { formatCurrency } from "../utils";
 
 type ProductDetailsProps = {
   product: Product;
 };
+
+//La funcion que conecta el action con el router. Usamos como parametro 'params'
+export async function action({ params:{id} }: ActionFunctionArgs){
+  //Llamamos funcion service para eliminar
+  console.log(id)
+  
+
+  return redirect('/')
+}
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
   //availability es boolean por eso no se imprime directamente en el template
@@ -26,12 +35,18 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
           >
             EDITAR
           </button>
-          <Link
-            to={"/"}
-            className="bg-red-600 text-white text-xs uppercase p-2 rounded-lg w-full text-center font-bold"
-          >
-            ELIMINAR
-          </Link>
+          {/* Agregamos boton de eliminar por medio de Form para usar el action de router-dom */}
+          <Form 
+            className="w-full"
+            method="POST"
+            action={`products/${product.id}/delete`}
+            >
+            <input
+              type="submit"
+              value={"Eliminar"}
+              className="bg-red-600 text-white text-xs uppercase p-2 rounded-lg w-full text-center font-bold"
+            />
+          </Form>
         </div>
       </td>
     </tr>
@@ -49,6 +64,15 @@ export default ProductDetails;
  * -Usamos el enfoque params. Obtener la url que genera nuestra app para desde ahi consultar a la api con esos datos. Esto permite que user pueda compartir la url y ésta sí exista y no dependa de una accion como click en el boton editar para que se genera esa url.
  * - Entonces cuando se hace click en editar se deben cargar los datos de ese producto en el componente EditProducts y que suena eso? a loader, si. Usamos useLoader.
  * - Se puede usar las options de useNavigate para crear un state === useNavigate(url, { state: value }) y se recupera en el componente que se envia con useLocation() es un hook. Pero no es eficiente porque no se puede compartir la url, si user no da click en editar no se llena ese state. Mejor opcion es el enfoque params. Lo recuperamos cuando llamamos al loader en el componente que lo necesita loader({params}) y ahi esta!!
+ * - Para eliminar un producto usamos el componente Form de router-Dom. Asi aprovechamos el 'action' para eliminar. A diferencia de editar, en eliminar solo debemos mandar a llamar a una funcion que borre el registro en la DB. Por ello cuando el user hace click en eliminar pasa lo siguiente: obtenemos el id del item a eliminar gracias a params --> ejecutamos la funcion service para eliminar un registro en la Db ---> en esa misma funcion retornamos un redirect('/') para volver a la vista principal. Por eso usamos un Form y le damos estilo de boton y agregamos el action con el metodo POST y lo mismo en router.tsx.
+ * - Otra forma de hacerlo seria con este codigo html:
+ * 
+ *           <Link
+            to={"/"} aca colocar la url /delete
+            className="bg-red-600 text-white text-xs uppercase p-2 rounded-lg w-full text-center font-bold"
+          >
+            ELIMINAR
+          </Link>
  *
  *
  *
