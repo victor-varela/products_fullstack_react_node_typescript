@@ -89,6 +89,17 @@ export async function updateProduct(data: ProductData, id: Product["id"]) {
   }
 }
 
+//Eliminar un Producto
+export const deleteProduct = async (id: Product["id"]) => {
+  const url = `${import.meta.env.VITE_API_URL}/api/products/${id}`;
+
+  try {
+    //Llamamos API- metodo DELTE porque en la API se ejecuta con un delete
+    await axios.delete(url);
+  } catch (error) {
+    console.log(error);
+  }
+};
 /**
  * - Inferimos el type de data desde el componente NewProduct parandonos con el cursor  [k: string]: FormDataEntryValue. Y creamos un type en este archivo para asignarselo al parametro de la funcion addProduct
  * - Usamos el schema que hemos creado para esta funcion --> usamos valibot para asegurar los datos que vamos a enviar.7
@@ -100,6 +111,15 @@ export async function updateProduct(data: ProductData, id: Product["id"]) {
  * - Creamos funcion para obetner los datos de la api getProducts(): esta funcion es casi igual a la de obtener todos los productos pero debemos ajusta la url, agregamos /id.. el type de id usamos Product['id'] es mas limpio el codigo,
  *
  * - Usamos funcion utils para convertir a boolean lo que esta en data.availability ya que viene por defecto en string por ser de un formulario.
+ * - En deleteProduct usamos el metodo delete en axios, Form solo soporta GET y POST por eso la incosistencia
+ * 
+ *               Form (POST)
+                    ↓
+              React Router action
+                    ↓
+              axios.delete()
+                    ↓
+              API backend
  *
  *
  *

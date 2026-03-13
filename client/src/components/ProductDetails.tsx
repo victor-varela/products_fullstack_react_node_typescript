@@ -1,18 +1,21 @@
 import { Form, redirect, useNavigate, type ActionFunctionArgs } from "react-router-dom";
 import type { Product } from "../types";
 import { formatCurrency } from "../utils";
+import { deleteProduct } from "../services/ProductService";
 
 type ProductDetailsProps = {
   product: Product;
 };
 
 //La funcion que conecta el action con el router. Usamos como parametro 'params'
-export async function action({ params:{id} }: ActionFunctionArgs){
-  //Llamamos funcion service para eliminar
-  console.log(id)
-  
+export async function action({ params: { id } }: ActionFunctionArgs) {
+  //Llamamos funcion service para eliminar (aseguramos que no sea undefined y que id sea number para que Ts no se queje)
 
-  return redirect('/')
+  if (id !== undefined) {
+    await deleteProduct(+id);
+
+    return redirect("/");
+  }
 }
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
@@ -36,11 +39,17 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             EDITAR
           </button>
           {/* Agregamos boton de eliminar por medio de Form para usar el action de router-dom */}
-          <Form 
+          {/* EN el FORM- Usamos confirm para prevenir borrar sin querer. Onsubmit. Esto se ejecuta ANTES que action */}
+          <Form
             className="w-full"
             method="POST"
             action={`products/${product.id}/delete`}
-            >
+            onSubmit={e => {
+              if (!confirm("Eliminar registro?")) {
+                e.preventDefault();
+              }
+            }}
+          >
             <input
               type="submit"
               value={"Eliminar"}
@@ -68,12 +77,20 @@ export default ProductDetails;
  * - Otra forma de hacerlo seria con este codigo html:
  * 
  *           <Link
-            to={"/"} aca colocar la url /delete
+            to={/products/${product.id}/delete`} 
             className="bg-red-600 text-white text-xs uppercase p-2 rounded-lg w-full text-center font-bold"
           >
             ELIMINAR
           </Link>
- *
+ *  Pero no seria optimo --> Un Link siempre hace GET. Por eso normalmente no se usa Link para borrar cosas. Los formularios de HTML nativos solo soportan GET y POST por eso no escribo en method='DELETE' que sería lo semanticamente Ideal.
+
+          Form (POST)
+              ↓
+        React Router action
+              ↓
+        axios.delete()
+              ↓
+        API backend
  *
  *
  *
