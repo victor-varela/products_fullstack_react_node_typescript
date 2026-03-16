@@ -34,3 +34,5 @@
 - Usamos el enfoque params para tomar el id de la url y consultar la api con ese id.
 
 - Creamos componente reutilizable (ProductForm.tsx) para las partes del formulario que se repiten en los componentes NewProduct y EditProduct. De esa forma personalizamos el boton de 'registrar producto' y 'guardar cambios'.
+
+- Para evitar hacer redirect ('/') en las actions de los componentes usamos useFetcher. Esto es similar a twitter o IG cuando das like a un post se dispara una animacion y se actualiza algun estado. useFetcher es ideal para hacer interacciones y QUEDARTE EN ESA MISMA PAGINA.

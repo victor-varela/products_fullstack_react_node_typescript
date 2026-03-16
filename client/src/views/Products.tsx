@@ -14,6 +14,13 @@ export async function loader() {
   return products;
 }
 
+//Declaramos function action para actualizar availability
+export const action =  async()=>{
+  console.log('desde action en Product.tsx');
+  
+  return {}
+}
+
 const Products = () => {
   //Recuperamos los productos del loader con useLoaderData
   const products = useLoaderData() as Product[];
@@ -60,5 +67,7 @@ export default Products;
  * - Agregamos el routing con Link para navegar las views o pages. Importamos de react-router-dom : Link
  * - Creamos una funcion LOADER de reactRouterDom para cargar los datos al componente. La ventaja es que carga los datos ANTES de que se monte el componente es mas rapido que useEffect(), similiar como hicimos la funcion ACTION en NewProduct.ts. Es async porque va a buscar data en una API. Router.tsx es quien se debe enterar que usamos la funcion Loader por ello se inicializa o configura ahi en Router.tsx.
  * - Usamos el useLoaderData de reactRouterDom para pasar el return del loader al componente (Logica--> UI).
+ * 
+ * - EL action de esta view la escribimos aca.
  *
  */

@@ -47,7 +47,7 @@ export async function getProducts() {
     } else {
       throw new Error("Hubo un error...");
     }
-  } catch (error) {}
+  } catch (error) { }
 }
 
 //Traer producto byId
@@ -67,7 +67,7 @@ export async function getProductsById(id: Product["id"]) {
     } else {
       throw new Error("Hubo un error...");
     }
-  } catch (error) {}
+  } catch (error) { }
 }
 
 //Actualizar Producto

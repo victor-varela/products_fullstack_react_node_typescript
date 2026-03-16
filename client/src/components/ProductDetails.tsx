@@ -18,6 +18,7 @@ export async function action({ params: { id } }: ActionFunctionArgs) {
   }
 }
 
+
 const ProductDetails = ({ product }: ProductDetailsProps) => {
   //availability es boolean por eso no se imprime directamente en el template
   const isAvailable = product.availability;
@@ -28,7 +29,18 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     <tr className="border-b ">
       <td className="p-3 text-lg text-gray-800">{product.name}</td>
       <td className="p-3 text-lg text-gray-800">{formatCurrency(product.price)}</td>
-      <td className="p-3 text-lg text-gray-800">{isAvailable ? "Disponible" : "No Disponible"}</td>
+      <td className="p-3 text-lg text-gray-800">
+        <form action="Post">
+          <button
+            type="button"
+            name="availability"
+            value={product.availability.toString()}
+            className={`${product.availability ? 'text-black' : 'text-red-600'} border border-gray-400 rounded-lg p-2 uppercase w-full font-bold text-xs shadow-slate-50 hover:cursor-pointer  `}
+          >
+            {isAvailable ? "Disponible" : "No Disponible"}
+          </button>
+        </form>
+      </td>
       <td className="p-3 text-lg text-gray-800 ">
         <div className="flex gap-2 items-center">
           <button
@@ -45,7 +57,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             method="POST"
             action={`products/${product.id}/delete`}
             onSubmit={e => {
-              if (!confirm("Eliminar registro?")) {
+              if (!confirm("¿Eliminar registro?")) {
                 e.preventDefault();
               }
             }}
@@ -91,7 +103,9 @@ export default ProductDetails;
         axios.delete()
               ↓
         API backend
- *
+
+    - Para evitar usar un redirect cuando se elimina un producto usamos useFetcher. Creamos un boton en el campo 'disponible' de este componente con un form de HTML
+ * - Este componente es Hijo de la view Products.tsx. Este componente tiene un action que se tiene que asociar a la url que lo muestra la cual es la raiz '/' por ello en esa ruta en el router declaramos el action de updateAvailabilityAction y la funcon la escribimos en el componente PADRE --> PRODUCTS.TSX
  *
  *
  */
