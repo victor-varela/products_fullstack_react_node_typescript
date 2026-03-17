@@ -1,5 +1,5 @@
-import { Link, useLoaderData } from "react-router-dom";
-import { getProducts } from "../services/ProductService";
+import { Link, useLoaderData, type ActionFunctionArgs } from "react-router-dom";
+import { getProducts, updateProductAvailability } from "../services/ProductService";
 import ProductDetails from "../components/ProductDetails";
 import type { Product } from "../types";
 
@@ -15,9 +15,9 @@ export async function loader() {
 }
 
 //Declaramos function action para actualizar availability
-export const action =  async()=>{
-  console.log('desde action en Product.tsx');
-  
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const { id } = Object.fromEntries(await request.formData())
+  await updateProductAvailability(+id)
   return {}
 }
 
@@ -50,8 +50,8 @@ const Products = () => {
             {/* Renderizamos componente Reutilizable */}
             {products.map(product => (
               <ProductDetails
-               key={product.id}
-               product={product}
+                key={product.id}
+                product={product}
               />
             ))}
           </tbody>

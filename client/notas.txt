@@ -36,3 +36,23 @@
 - Creamos componente reutilizable (ProductForm.tsx) para las partes del formulario que se repiten en los componentes NewProduct y EditProduct. De esa forma personalizamos el boton de 'registrar producto' y 'guardar cambios'.
 
 - Para evitar hacer redirect ('/') en las actions de los componentes usamos useFetcher. Esto es similar a twitter o IG cuando das like a un post se dispara una animacion y se actualiza algun estado. useFetcher es ideal para hacer interacciones y QUEDARTE EN ESA MISMA PAGINA.
+- EL uso de useFetcher es clave en este proyecto. En primera, pense que disparar una animacion, actualizar un estado y re-renderizar se podia hacer con funciones y hooks de react (enfoque clasico). Sí, se puede pero no es lo mejor. useFetcher existe para que:
+
+No tengas dos fuentes de verdad (estado local vs backend)
+
+Con tu enfoque (react clasico):
+
+UI state ≠ DB state (riesgo)
+
+Con fetcher:
+
+UI siempre viene del loader (fuente única) --> esto es porque el estado del componente lo consume desde un LOADER que viene directamente de la DB. Para mantener una unica fuente de la verdad hay que evitar cambiar los estados manualmente. Ademas si hay 10 componentes modificando datos seria muy engorroso hacerlo manualmente. EL problema real que resuelve useFetcher es manejar estados manualmente. EL enfoque Data Router es: React Router = URL → loader → UI. Aca no hay estados internos ni manuales, los datos vienen de la DB.
+
+Cuando usar fetcher:
+
+cambiar un estado pequeño (toggle)
+
+eliminar algo sin salir de la página
+
+hacer acciones inline (como tu botón)
+

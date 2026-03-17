@@ -100,6 +100,19 @@ export const deleteProduct = async (id: Product["id"]) => {
     console.log(error);
   }
 };
+
+//Actualizar Disponibilidad
+export const updateProductAvailability = async (id: Product['id']) => {
+  const url = `${import.meta.env.VITE_API_URL}/api/products/${id}`;
+
+  try {
+    await axios.patch(url)
+
+  } catch (error) {
+    console.log(error);
+
+  }
+}
 /**
  * - Inferimos el type de data desde el componente NewProduct parandonos con el cursor  [k: string]: FormDataEntryValue. Y creamos un type en este archivo para asignarselo al parametro de la funcion addProduct
  * - Usamos el schema que hemos creado para esta funcion --> usamos valibot para asegurar los datos que vamos a enviar.7
