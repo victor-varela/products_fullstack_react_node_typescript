@@ -56,6 +56,9 @@ eliminar algo sin salir de la página
 
 hacer acciones inline (como tu botón)
 
+***  DEPLOYMENT  ***
+- Por lo general se trabaja back y front en 2 repositorios por separado pero ya en este los tenia unidos.
+
 - Para hacer Deploy hay que ajustar unas cosas en el .server: agregar manualmente el scipt build en el package json. "build": "tsc", -para que compile los archivos ts.--
 
 - En el tsconfig excluir los test, para ello "exclude": ["src/**/*.test.ts"]7
@@ -69,3 +72,7 @@ export const db = new Sequelize(process.env.DB_URL, {
 });
 
 - La carpeta .dist que se crea cada vez que hacemos rpm run build, se elimina ANTES de subir el proyecto. 
+
+- EL back esta en render --> la DB esta en neonDB --> el frontend esta en Vercel
+
+- EN el front agregar un archivo vercel.json en la raiz del proyecto con la configuracion por default para que reconozca las rutos de react-router-dom.
