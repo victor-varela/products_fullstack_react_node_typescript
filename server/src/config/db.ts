@@ -5,7 +5,7 @@ dotenv.config({ path: ".env" });//para inicializar dontenv
 
 export const db = new Sequelize(process.env.DB_URL, {
   dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
-  models:[__dirname + '/../models/**/*.ts'],
+  models:[__dirname + '/../models/**/*'],
   logging:false
 });
 

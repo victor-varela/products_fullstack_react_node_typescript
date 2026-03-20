@@ -1,7 +1,13 @@
-import { Form, redirect, useFetcher, useNavigate, type ActionFunctionArgs } from "react-router-dom";
-import type { Product } from "../types";
-import { formatCurrency } from "../utils";
-import { deleteProduct } from "../services/ProductService";
+import {
+  Form,
+  redirect,
+  useFetcher,
+  useNavigate,
+  type ActionFunctionArgs,
+} from 'react-router-dom';
+import type { Product } from '../types';
+import { formatCurrency } from '../utils';
+import { deleteProduct } from '../services/ProductService';
 
 type ProductDetailsProps = {
   product: Product;
@@ -14,10 +20,9 @@ export async function action({ params: { id } }: ActionFunctionArgs) {
   if (id !== undefined) {
     await deleteProduct(+id);
 
-    return redirect("/");
+    return redirect('/');
   }
 }
-
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
   //availability es boolean por eso no se imprime directamente en el template
@@ -27,49 +32,51 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   const navigate = useNavigate();
 
   //instaciamos Fetcher
-  const fetcher = useFetcher()
+  const fetcher = useFetcher();
   return (
-    <tr className="border-b ">
-      <td className="p-3 text-lg text-gray-800">{product.name}</td>
-      <td className="p-3 text-lg text-gray-800">{formatCurrency(product.price)}</td>
-      <td className="p-3 text-lg text-gray-800">
-      {/* Usamos useFetcher */}
+    <tr className='border-b '>
+      <td className='p-3 text-lg text-gray-800'>{product.name}</td>
+      <td className='p-3 text-lg text-gray-800'>
+        {formatCurrency(product.price)}
+      </td>
+      <td className='p-3 text-lg text-gray-800'>
+        {/* Usamos useFetcher */}
         <fetcher.Form method='POST'>
           <button
-            type="submit"
-            name="id"
+            type='submit'
+            name='id'
             value={product.id}
             className={`${product.availability ? 'text-black' : 'text-red-600'} border border-gray-400 rounded-lg p-2 uppercase w-full font-bold text-xs shadow-slate-50 hover:cursor-pointer  `}
           >
-            {isAvailable ? "Disponible" : "No Disponible"}
+            {isAvailable ? 'Disponible' : 'No Disponible'}
           </button>
         </fetcher.Form>
       </td>
-      <td className="p-3 text-lg text-gray-800 ">
-        <div className="flex gap-2 items-center">
+      <td className='p-3 text-lg text-gray-800 '>
+        <div className='flex gap-2 items-center'>
           <button
             //usamos onClick, llamamos navigate y le pasamos ruta
             onClick={() => navigate(`/products/${product.id}/edit`)}
-            className="bg-indigo-600 text-white text-xs uppercase p-2 rounded-lg w-full text-center font-bold"
+            className='bg-indigo-600 text-white text-xs uppercase p-2 rounded-lg w-full text-center font-bold'
           >
             EDITAR
           </button>
           {/* Agregamos boton de eliminar por medio de Form para usar el action de router-dom */}
           {/* EN el FORM- Usamos confirm para prevenir borrar sin querer. Onsubmit. Esto se ejecuta ANTES que action */}
           <Form
-            className="w-full"
-            method="POST"
+            className='w-full'
+            method='POST'
             action={`products/${product.id}/delete`}
-            onSubmit={e => {
-              if (!confirm("¿Eliminar registro?")) {
+            onSubmit={(e) => {
+              if (!confirm('¿Eliminar registro?')) {
                 e.preventDefault();
               }
             }}
           >
             <input
-              type="submit"
-              value={"Eliminar"}
-              className="bg-red-600 text-white text-xs uppercase p-2 rounded-lg w-full text-center font-bold"
+              type='submit'
+              value={'Eliminar'}
+              className='bg-red-600 text-white text-xs uppercase p-2 rounded-lg w-full text-center font-bold'
             />
           </Form>
         </div>

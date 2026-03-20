@@ -56,3 +56,16 @@ eliminar algo sin salir de la página
 
 hacer acciones inline (como tu botón)
 
+- Para hacer Deploy hay que ajustar unas cosas en el .server: agregar manualmente el scipt build en el package json. "build": "tsc", -para que compile los archivos ts.--
+
+- En el tsconfig excluir los test, para ello "exclude": ["src/**/*.test.ts"]7
+- Como al final todo el codigo es en realidad Js, hay que quitar en el archivo db.ts que incluya la extension .ts y solo queda los archivos dentro de la carpeta models - el archivo quedaria asi :
+
+
+export const db = new Sequelize(process.env.DB_URL, {
+        dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
+        models:[__dirname + '/../models/**/*'], ANTES TENIA /*.TS AL FINAL
+        logging:false
+});
+
+- La carpeta .dist que se crea cada vez que hacemos rpm run build, se elimina ANTES de subir el proyecto. 
