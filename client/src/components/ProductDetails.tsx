@@ -35,11 +35,11 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   const fetcher = useFetcher();
   return (
     <tr className='border-b '>
-      <td className='p-3 text-sm md:text-lg text-gray-800'>{product.name}</td>
-      <td className='p-3 text-sm md:text-lg text-gray-800'>
+      <td className='p-1 md:p-3 text-sm md:text-lg text-gray-800'>{product.name}</td>
+      <td className='p-1 md:p-3 text-sm md:text-lg text-gray-800'>
         {formatCurrency(product.price)}
       </td>
-      <td className='p-3 text-sm md:text-lg text-gray-800'>
+      <td className='p-1 md:p-3 text-sm md:text-lg text-gray-800'>
         {/* Usamos useFetcher */}
         <fetcher.Form method='POST'>
           <button
@@ -52,7 +52,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
           </button>
         </fetcher.Form>
       </td>
-      <td className='p-3 text-sm md:text-lg text-gray-800 '>
+      <td className='p-1 md:p-3 text-sm md:text-lg text-gray-800 '>
         <div className='flex gap-2 items-center flex-col sm:flex-row sm:justify-center'>
           <button
             //usamos onClick, llamamos navigate y le pasamos ruta
